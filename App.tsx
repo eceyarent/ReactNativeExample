@@ -16,10 +16,12 @@ import {
   StyleSheet,
   Text,
   Image,
+  Platform,
   useColorScheme,
   View,
   TouchableOpacity,
   Alert,
+  Dimensions,
   RefreshControl
 
 } from 'react-native';
@@ -116,18 +118,22 @@ function App(): JSX.Element {
     }, 2000);
 
   };
+  console.log(Platform.OS, Dimensions.get("screen"))
 
   return (
     <SafeAreaView style={styles.background}>
-
+      <Text>This is an {Platform.OS} app</Text>
+      <Text>height:{Dimensions.get("screen").height}</Text>
+      <Text>width:{Dimensions.get("screen").width}</Text>
       <FlatList
         data={data}
         renderItem={({ item }) => (
           <TouchableOpacity onPress={() => Alert.alert("AlbumId değeri " + item.albumId, item.title)}>
-            <View style={{ flexDirection: 'row', alignItems: 'center', margin: 5 }}>
-              <Text style={{ flex: 1 }}>{item.id}</Text>
-              <Image source={{ uri: item.url }} style={{ width: 100, height: 100, marginRight: 10 }} />
-              <Text style={{ flex: 4 }}>{item.title}</Text>
+
+            <View style={styles.View}>
+              <Text style={styles.Text1}>{item.id}</Text>
+              <Image source={{ uri: item.url }} style={styles.Image} />
+              <Text style={styles.Text2}>{item.title}</Text>
 
             </View>
           </TouchableOpacity>
@@ -143,7 +149,26 @@ function App(): JSX.Element {
 const styles = StyleSheet.create({
   background: {
     flex: 1,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: Platform.OS === "ios" ? "yellow" : "white",
+  },
+  View: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    margin: 5
+  },
+  Text1: {
+    flex: 1,
+    alignItems: 'center',
+
+
+  },
+  Text2: {
+    flex: 4
+  },
+  Image: {
+    width: 100,
+    height: 100,
+    marginRight: 10
   }
 });
 
